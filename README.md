@@ -20,6 +20,7 @@ We work from a 50,000-review sample drawn with our group seed (**seed = 42**).
 - Maximilian Wang
 - Kunaal Gudavalli
 - Sumanth Gopal
+- Adam Hagarty
 - Shashank Kesavamatham
 
 ## Data
