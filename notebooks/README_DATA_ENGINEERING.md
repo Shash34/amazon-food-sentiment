@@ -1,4 +1,4 @@
-# Group Alpha - Data Engineering
+# Data reproduction
 
 Reproduce using the same seed, preprocessing, split, and vocabulary as the modelers.
 
