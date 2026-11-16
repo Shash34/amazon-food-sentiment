@@ -1,4 +1,4 @@
-# Group Alpha - Data Engineering (Milestone 2)
+# Group Alpha - Data Engineering
 
 Reproduce using the same seed, preprocessing, split, and vocabulary as the modelers.
 
