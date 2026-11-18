@@ -1,3 +1,7 @@
 .venv/
 data/Reviews.csv
 .DS_Store
+
+# Generated data-engineering outputs (keep only the chart)
+notebooks/outputs/*
+!notebooks/outputs/word_frequency.png
