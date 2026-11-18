@@ -1,5 +1,5 @@
 .venv/
-data/Reviews.csv
+data/*
 .DS_Store
 
 # Generated data-engineering outputs (keep only the chart)
