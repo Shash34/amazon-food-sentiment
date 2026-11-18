@@ -19,3 +19,20 @@ y_pred = model.predict(X_test)
 print('Accuracy:', accuracy_score(y_test, y_pred))
 print(classification_report(y_test, y_pred, target_names=['Negative', 'Positive']))
 print(confusion_matrix(y_test, y_pred))
+
+
+# M2 Question 3: Extract misclassified reviews
+
+# Get reviews that Naive Bayes predicted incorrectly
+test_df = pd.read_csv('outputs/test.csv')
+incorrect = y_test.to_numpy() != y_pred
+
+errors = test_df.loc[incorrect, ['Text', 'Sentiment']].copy()
+errors['Predicted'] = y_pred[incorrect]
+
+# Print the number of errors and 10 examples for M2
+print('\nTotal misclassified:', len(errors))
+print(errors.head(10).to_string(index=False))
+
+# Save all incorrect predictions for further analysis
+errors.to_csv('outputs/naive_bayes_errors.csv', index=False)
