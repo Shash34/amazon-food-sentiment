@@ -3,10 +3,18 @@
 Reproduce using the same seed, preprocessing, split, and vocabulary as the modelers.
 
 1. Download `Reviews.csv` from the Amazon Fine Food Reviews Kaggle page and put it in `data/` at the repo root (`data/Reviews.csv`).
-2. Install `pip install pandas scikit-learn scipy matplotlib joblib`.
-3. Run the notebooks in this folder in order: `load_and_label.ipynb`, then `bow_feature.ipynb` and `tf-idf_feature.ipynb`.
-   All generated files go to `notebooks/outputs/`.
-   The original `make_sample.py` / `preprocess.py` / `feature_engineering.py` scripts produce identical outputs, but they expect `Reviews.csv` next to them.
+2. Install dependencies from the repo root: `pip install -r requirements.txt`.
+3. Run the scripts **from inside the `notebooks/` folder** (they use paths relative to it, such as `../data/` and `outputs/`):
+
+   ```bash
+   cd notebooks
+   python make_sample.py          # data/Reviews.csv -> data/group_sample_seed42.csv
+   python preprocess.py           # -> data/cleaned_reviews.csv
+   python feature_engineering.py  # -> outputs/ (splits, BoW/TF-IDF matrices, vectorizers, chart)
+   python train_naive_bayes.py    # -> models/nb_bow_model.joblib + printed metrics
+   ```
+
+   Data files go to `data/`, feature outputs go to `notebooks/outputs/`, and trained models go to `models/` at the repo root.
 
 ## Decisions
 
@@ -42,7 +50,7 @@ y_test = test['Sentiment']
 
 ## What to commit
 
-Commit the notebooks, this README, and optionally `outputs/word_frequency.png` to the public GitHub repository. Do not commit `Reviews.csv`, the sampled/cleaned CSVs, the split CSVs, the `.npz` matrices, or `.joblib` artifacts; these are generated locally (`.gitignore` already excludes everything in `notebooks/outputs/` except the chart). Share generated data privately if a teammate cannot run the scripts.
+Commit the scripts, this README, and optionally `outputs/word_frequency.png` to the public GitHub repository. Do not commit `Reviews.csv`, the sampled/cleaned CSVs, the split CSVs, the `.npz` matrices, or `.joblib` artifacts; these are generated locally (`.gitignore` already excludes `data/`, `models/`, and everything in `notebooks/outputs/` except the chart). Share generated data privately if a teammate cannot run the scripts.
 
 ## To complete Milestone 2
 
