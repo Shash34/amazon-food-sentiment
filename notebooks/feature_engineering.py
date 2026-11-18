@@ -11,7 +11,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 # Inputs: cleaned_reviews.csv produced by preprocess.py
 # All modelers must reuse these exact train/test splits.
-df = pd.read_csv('cleaned_reviews.csv')
+df = pd.read_csv('../data/cleaned_reviews.csv')
 os.makedirs('outputs', exist_ok=True)
 
 def clean_text(text):
