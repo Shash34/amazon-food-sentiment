@@ -9,6 +9,7 @@ This project builds and deploys a sentiment analysis system for the [Amazon Fine
 We work from a 50,000-review sample drawn with our group seed (**seed = 42**).
 
 ### Planned approach
+
 - **Features:** Bag of Words and TF-IDF
 - **Classical models:** Naive Bayes, Logistic Regression
 - **Deep model:** Feedforward Neural Network
@@ -25,4 +26,20 @@ We work from a 50,000-review sample drawn with our group seed (**seed = 42**).
 
 ## Data
 
-Download `Reviews.csv` from Kaggle and sample 50,000 rows with `random_state = XX`. Data files are not committed due to size.
+Download `Reviews.csv` from Kaggle and sample 50,000 rows with `random_state = 42`. Data files are not committed due to size.
+
+## Reproducing the pipeline
+
+1. Download `Reviews.csv` from [Kaggle](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews) into `data/Reviews.csv`.
+2. `pip install -r requirements.txt`
+3. Run the scripts from inside `notebooks/`:
+
+```bash
+cd notebooks
+python make_sample.py
+python preprocess.py
+python feature_engineering.py
+python train_naive_bayes.py
+```
+
+See [notebooks/README_DATA_ENGINEERING.md](notebooks/README_DATA_ENGINEERING.md) for preprocessing decisions and output files.
