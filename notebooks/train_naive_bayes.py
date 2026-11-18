@@ -47,10 +47,10 @@ print_metrics('Naive Bayes + TF-IDF', y_pred_tfidf)
 
 # Get reviews that Naive Bayes predicted incorrectly
 test_df = pd.read_csv('outputs/test.csv')
-incorrect = y_test.to_numpy() != y_pred
+incorrect = y_test.to_numpy() != y_pred_bow
 
 errors = test_df.loc[incorrect, ['Text', 'Sentiment']].copy()
-errors['Predicted'] = y_pred[incorrect]
+errors['Predicted'] = y_pred_bow[incorrect]
 
 # Print the number of errors and 10 examples for M2
 print('\nTotal misclassified:', len(errors))
