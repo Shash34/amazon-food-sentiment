@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import pandas as pd
 import joblib
 import os
+import time
 
 os.makedirs('../models', exist_ok=True)
 
@@ -19,10 +20,14 @@ y_train = pd.read_csv('outputs/train.csv')['Sentiment']
 y_test = pd.read_csv('outputs/test.csv')['Sentiment']
 
 nb_bow_model = MultinomialNB()
+start = time.perf_counter()
 nb_bow_model.fit(X_train_bow, y_train)
+bow_train_time = time.perf_counter() - start
 
 nb_tfidf_model = MultinomialNB()
+start = time.perf_counter()
 nb_tfidf_model.fit(X_train_tfidf, y_train)
+tfidf_train_time = time.perf_counter() - start
 
 y_pred_bow = nb_bow_model.predict(X_test_bow)
 y_pred_tfidf = nb_tfidf_model.predict(X_test_tfidf)
@@ -42,6 +47,10 @@ def print_metrics(name, y_pred):
 
 print_metrics('Naive Bayes + BoW', y_pred_bow)
 print_metrics('Naive Bayes + TF-IDF', y_pred_tfidf)
+
+# Training time (only the .fit() call is timed)
+print(f'\nTraining time (Naive Bayes + BoW): {bow_train_time:.4f} s')
+print(f'Training time (Naive Bayes + TF-IDF): {tfidf_train_time:.4f} s')
 
 # M2 Question 3: Extract misclassified reviews
 

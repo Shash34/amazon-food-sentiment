@@ -1,0 +1,69 @@
+from scipy.sparse import load_npz
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import pandas as pd
+import joblib
+import os
+import time
+
+os.makedirs('../models', exist_ok=True)
+
+# Features (sparse matrices)
+X_train_bow = load_npz('outputs/X_train_bow.npz')
+X_test_bow = load_npz('outputs/X_test_bow.npz')
+
+X_train_tfidf = load_npz('outputs/X_train_tfidf.npz')
+X_test_tfidf = load_npz('outputs/X_test_tfidf.npz')
+
+# Labels (Sentiment column from the CSVs)
+y_train = pd.read_csv('outputs/train.csv')['Sentiment']
+y_test = pd.read_csv('outputs/test.csv')['Sentiment']
+
+lr_bow_model = LogisticRegression(max_iter=1000)
+start = time.perf_counter()
+lr_bow_model.fit(X_train_bow, y_train)
+bow_train_time = time.perf_counter() - start
+
+lr_tfidf_model = LogisticRegression(max_iter=1000)
+start = time.perf_counter()
+lr_tfidf_model.fit(X_train_tfidf, y_train)
+tfidf_train_time = time.perf_counter() - start
+
+y_pred_bow = lr_bow_model.predict(X_test_bow)
+y_pred_tfidf = lr_tfidf_model.predict(X_test_tfidf)
+
+joblib.dump(lr_bow_model, '../models/lr_bow_model.joblib')
+joblib.dump(lr_tfidf_model, '../models/lr_tfidf_model.joblib')
+
+print('Saved models to models/lr_bow_model.joblib and models/lr_tfidf_model.joblib')
+
+# Function to print out metrics
+def print_metrics(name, y_pred):
+    print(f'\n===== {name} =====')
+    print('Accuracy:', round(accuracy_score(y_test, y_pred), 4))
+    print(classification_report(y_test, y_pred, target_names=['Negative', 'Positive'], digits=4))
+    print('Confusion matrix (rows = true, cols = predicted; order = Negative, Positive):')
+    print(confusion_matrix(y_test, y_pred))
+
+print_metrics('Logistic Regression + BoW', y_pred_bow)
+print_metrics('Logistic Regression + TF-IDF', y_pred_tfidf)
+
+# Training time (only the .fit() call is timed)
+print(f'\nTraining time (Logistic Regression + BoW): {bow_train_time:.4f} s')
+print(f'Training time (Logistic Regression + TF-IDF): {tfidf_train_time:.4f} s')
+
+# M2 Question 3: Extract misclassified reviews
+
+# Get reviews that Logisitic Regression predicted incorrectly
+test_df = pd.read_csv('outputs/test.csv')
+incorrect = y_test.to_numpy() != y_pred_bow
+
+errors = test_df.loc[incorrect, ['Text', 'Sentiment']].copy()
+errors['Predicted'] = y_pred_bow[incorrect]
+
+# Print the number of errors and 10 examples for M2
+print('\nTotal misclassified:', len(errors))
+print(errors.head(10).to_string(index=False))
+
+# Save all incorrect predictions for further analysis
+errors.to_csv('outputs/logistic_regression_errors.csv', index=False)
