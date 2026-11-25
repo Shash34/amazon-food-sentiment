@@ -30,9 +30,10 @@ Download `Reviews.csv` from Kaggle and sample 50,000 rows with `random_state = 4
 
 ## Reproducing the pipeline
 
-1. Download `Reviews.csv` from [Kaggle](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews) into `data/Reviews.csv`.
+1. Create a `data/` folder in the repository root if it doesn't already exist. Download `Reviews.csv` from [Kaggle](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews) and place it in `data/Reviews.csv`.
 2. `pip install -r requirements.txt`
 3. Run the scripts from inside `notebooks/`:
+
 
 ```bash
 cd notebooks
