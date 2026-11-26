@@ -1,6 +1,7 @@
 from scipy.sparse import load_npz
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, mean_absolute_error, mean_squared_error
+import numpy as np
 import pandas as pd
 import joblib
 import os
@@ -41,6 +42,8 @@ print('Saved models to models/lr_bow_model.joblib and models/lr_tfidf_model.jobl
 def print_metrics(name, y_pred):
     print(f'\n===== {name} =====')
     print('Accuracy:', round(accuracy_score(y_test, y_pred), 4))
+    print('RMSE:', round(np.sqrt(mean_squared_error(y_test, y_pred)), 4))
+    print('MAE:', round(mean_absolute_error(y_test, y_pred), 4))
     print(classification_report(y_test, y_pred, target_names=['Negative', 'Positive'], digits=4))
     print('Confusion matrix (rows = true, cols = predicted; order = Negative, Positive):')
     print(confusion_matrix(y_test, y_pred))
